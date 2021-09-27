@@ -1,0 +1,272 @@
+#	Use ufw version to determine what version of UFW is installed.
+#	Use sudo ufw reset to reset all UFW rules to factory defaults.
+#	Use sudo ufw status to check the current status of the firewall.
+#	Use sudo ufw enable to start the firewall and update rules.
+#	Use sudo ufw default deny incoming to block all incoming connections.
+#	Use sudo ufw default allow outgoing to allow all outgoing connections.
+#	Use sudo ufw allow to open specific ports.
+#	Use sudo ufw deny to close specific ports.
+#	Use sudo ufw delete to delete rules.
+#	Use sudo ufw disable to shut down the firewall.
+#	Use sudo ufw reload to reload the UFW firewall.
+#	
+#	
+#	this is the activity
+#	
+#	sudo ufw deny 22
+#	
+#	from firewalld
+#	ifconfig
+#	192.168.76.67
+#	
+#	sudo ufw allow 22
+#	
+#	telnet is port 21
+#	telnet 192.168.76.67 80
+#	
+#	or ssh sysadmin@192.168.76.67
+#	
+#	sudo ufw deny out to any port 22
+#	means "to any host" not port
+#	
+#	ufw is a front end for IPTABLES
+#	firewalld too
+#	
+#	you can go:
+#	(go to ufw at digital ocean)
+#	
+#	rate limit per time block 5 seconds to x (eg. 13)
+#	
+#	IPtables has a rules file
+#	
+#	firewalld
+#	
+#	watch out for changing firewall rules
+#	problem is that when you change one, all change or reset
+#	
+#	IPtable rules are a file
+#	
+#	zones are groups of like use cases or like rules
+#	segregating data
+#	
+#	interfaces = zones
+#	one router can use different interfaces for different sectors as simple as internal vs external. each interface is a zone then.
+#	
+#	it is analagous to a UO or a GPO
+#	
+#	firewalld allows rules to be changed dynamically without changing the entire firewall
+#	if not, all sessions would be discannected and have to reconnect each time
+#	
+#	runtime valid until next reboot or reload, hence runtime
+#	vs
+#	permanent configurations
+#	
+#	ssh port 22 might ber closed in a zone
+#	the application will then enable the port
+#	it can be denied by default, but enabled for the service
+#	
+#	http is an alias for rules
+#	
+#	one FW can be 2 zones or more
+#	
+#	go sudo etc/init.d/firewall status
+#	go sudo etc/init.d/firewall start
+#	firewall runs by default
+#	
+#	startup process
+#	init.d is the startup file(or a startup file)
+#	
+#	sudo --firewall-cmd
+#	
+#	home, external, internal, drop, dmz, work, public, trusted
+#	all zones
+#	all rules are enumerated
+#	
+#	attach an interface to a zone
+#	
+#	12:41 PM
+#	sudo firewall-cmd --zone=public --change-interface=eth0
+#	
+#	sudo firewall-cmd --zone=public --list-all
+#	
+#	services
+#	
+#	sudo --firewall-cmd --get-services
+#	
+#	rule to deny all connections from 5th street: 10.10.10.10
+#	
+#	this is the command:
+#	sudo --firewall-cmd --zone=work --add-rich-rule='rule family='"ipv4" source address="10.10.10.10" reject'
+#	
+#	ICMP blocks
+#	if we want to make sure ping does not work on the work network
+#	
+#	sudo --firewall-cmd --zone=work --add-icmp-block=echo-request --add-icmp-block=echo-reply success
+#	
+#	sudo --firewall-cmd --zone=work --list-all
+#	
+#	through IP tables, you can ignore as opposed to accept or reject
+#	
+#	difference: zoning. firewalld supports zones
+#	ufw does not
+#	
+#	ufw sudo ufw app list
+#	sudo ufw allow "openssh"
+#	
+#	activity:
+#	set up zones: 1:01PM
+#	
+#	Use sudo /etc/init.d/firewalld start to start firewalld.
+#	Use sudo firewall-cmd --list-all-zones to list all current zones.
+#	Use sudo firewall-cmd --zone=home --change-interface=eth0 to bind together interfaces.
+#	Use sudo firewall-cmd --get-services to list currently configured services.
+#	Use sudo firewall-cmd --zone=home --list-all to list all currently configured services for a specific zone.
+#	Use sudo firewall-cmd --zone=home --add-rich-rule= to add specific rules to specific zones
+#	
+#	
+#	ufw
+#	
+#	nmap
+#	1:26 PM
+#	
+#	Nmap
+#	network sec analysts bread and butter
+#	craft and analyse packets
+#	
+#	syn packets with certain bits or flags set
+#	nmap.org
+#	
+#	sudo nmap -O -p 1-500 --osscan-guess 192.168.76.67
+#	
+#	uname -a gives you os info
+#	
+#	1:37 PM
+#	service scan:
+#	sudo ufw allow 53
+#	
+#	sudo nmap -sv 192.168.76.67
+#	
+#	what's it good for?
+#	what ports are open?
+#	what version (old version?) of a service is in use? Is there an unpatched old version?
+#	
+#	nmap -A -T4 192.168.76.67
+#	
+#	t4 does fast detaction. wastes less time
+#	runs traceroute
+#	
+#	sudo nmap -sU 192.168.76.67 (UDP scan)
+#	
+#	ack scan
+#	sudo nmap -sA 192.168.76.67
+#	
+#	nmap -sv is whach scan?
+#	version scan for services
+#	
+#	1) ping IPs
+#	2) make list of alive hosts
+#	3) now you use nmap to check these IPs
+#	
+#	do not use nmap to scan public networks. nmap sends a ton of outgoing traffic.
+#	it leaves a big fingerprint
+#	
+#	run nmap with wireshark capture, then analyze
+#	
+#	nmap can return: closed or filtered ports
+#	
+#	filtered means the machine did not respond\
+#	
+#	when no responce: "filtered"
+#	
+#	AN:
+#	you can run on your own as a cron
+#	then run diff
+#	
+#	each day
+#	
+#	Aditya: developers sometimes start and run services, and then not shut them down, because they are tired or exhausted.
+#	
+#	make two files and diff
+#	
+#	in order to protect your footprint, you have to know what your footprint is.
+#	
+#	you can "hop" to another server, hop to a proxy, or use a vpn, but if you want to scan, you have to send traffic
+#	
+#	AN:
+#	different layers of firewalls:
+#	telnet on port 80
+#	
+#	open port vs making a proper firewall call
+#	
+#	SSH is sitting on top of TCP
+#	
+#	network layer fw won't be able to see the application layer information
+#	
+#	fake it out with a telnet or curl
+#	
+#	Tom O'carroll
+#	ngfw can work on layer 7
+#	
+#	awkward because you cna't necessarily tell them to decrypt because they are locked down
+#	
+#	SSH handshake
+#	is the service down or is it blocked by the fw?
+#	
+#	sudo firewall-cmd --zone-hom,e --list-all
+#	
+#	sudo firewall-cmd --list-all-zones
+#	
+#	daemons
+#	
+#	UDP scan will return a daemon
+#	
+#	ufw vs firewalld vs firewall
+#	nmap
+#	
+#	2:06
+#	
+#	httpd is a daemon
+#	UDP scan should show daemons
+#	service scan should yield daemons as well
+#	
+#	in wireshark, you start wireshark and monitor "loopback"
+#	
+#	red means fail
+#	
+#	nmap -sS 192....
+#	
+#	provides services and ports
+#	
+#	a lot of the packets are red
+#	
+#	rest=reset
+#	
+#	when there is a syn-ack, you knwo somethign is happening
+#	
+#	look at the port
+#	
+#	wireshark will allow you to see the syns
+#	then the acks
+#	
+#	nmap -sv does show the daemons
+#	it is showign the serice?server?or the daemon itself "d"
+#	
+#	zenmap:
+#	install zenmap
+#	
+#	puts a gui in front of nmap
+#	
+#	zenmap
+#	angry ip scanner: it is a ping machine. tells you what is up and what is not
+#	
+#	
+#	another one
+#	
+#	run as admin
+#	
+#	using nmap to see online hosts
+#	
+#	nmap -sn 192.168.4.0 /28
+#	
+#	
+#	then nmap -sV 192.168.4.30
