@@ -25,7 +25,7 @@ This document contains the following details:
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
 Load balancing ensures that the application will be highly available, in addition to restricting the attack surface of the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+
 
 Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the files and system logs.
 Filebeat monitors the log files or locations that you specify, collects log events, and forwards them either to Elasticsearch or Logstash for indexing.
@@ -90,7 +90,7 @@ We have installed the following Beats on these machines:
 - _Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+
 _In Kibana the Metricbeat dashboard shows the CPU use, memory use, and docker instance information
 _In Kibana the filebeat dashboard shows log events organized into graphs that show usage per VM, and per running service
 ### Using the Playbook
